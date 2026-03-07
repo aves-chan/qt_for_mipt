@@ -18,6 +18,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Install Dependency Walker for Nuitka
+        uses: onesoftqwq/dependency-walker-installer@v1.0
+
       - name: Build exe
         run: pyside6-deploy --mode standalone --name my_app --force
 
