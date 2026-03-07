@@ -19,7 +19,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Build exe
-        run: pyside6-deploy --name my_app --onefile --force
+        run: pyside6-deploy --name my_app --mode onefile --force
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
