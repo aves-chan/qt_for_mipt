@@ -1,4 +1,5 @@
 from PySide6.QtWidgets import QApplication, QMainWindow
+from PySide6.QtGui import QIcon
 from design import Ui_MainWindow
 import random
 
@@ -8,7 +9,9 @@ class MainWindow(QMainWindow):
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.resize(700, 700)
         self.ui.pushButton.clicked.connect(self.generate_number)
+        self.setWindowTitle("ЭТО ТАЙТл поня да?")
 
     def generate_number(self):
         number = random.randint(1, 100)
