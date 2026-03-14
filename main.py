@@ -1,21 +1,40 @@
-from PySide6.QtWidgets import QApplication, QMainWindow
-from PySide6.QtGui import QIcon
-from design import Ui_MainWindow
-import random
+from PySide6.QtWidgets import QApplication, QMainWindow, QListView
+from PySide6.QtSql import QSqlTableModel
+
+from remove_transaction_dialog import RemoveTransactionDialog
+from ui import main_ui
+import new_transaction_dialog
+import database
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-
-        self.ui = Ui_MainWindow()
+        self.ui = main_ui.Ui_MainWindow()
         self.ui.setupUi(self)
-        self.resize(700, 700)
-        self.ui.pushButton.clicked.connect(self.generate_number)
-        self.setWindowTitle("ЭТО ТАЙТл поня да?")
+        self.db = database.Transactions()
 
-    def generate_number(self):
-        number = random.randint(1, 100)
-        self.ui.label.setText(str(number))
+        self.ui.pushButton_new.clicked.connect(self.new_transaction)
+        self.ui.pushButton_remove.clicked.connect(self.remove_transaction)
+
+        self.model = QSqlTableModel(self)
+        self.model.setTable(database.TABLE_NAME)
+        self.model.select()
+
+        self.ui.tableView.setModel(self.model)
+        self.ui.tableView.hideColumn(0)
+
+
+    def new_transaction(self):
+        dialog = new_transaction_dialog.NewTransactionDialog(self.db, self)
+        dialog.exec()
+        self.model.select()
+
+    def remove_transaction(self):
+        dialog = RemoveTransactionDialog(self.db, self)
+        dialog.exec()
+        self.model.select()
+
 
 
 def main():
